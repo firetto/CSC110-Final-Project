@@ -1,11 +1,9 @@
 """A file that contains the CarbonEmission dataclass
-
-Implementation Note: year is an integer, however if needed we can make it a
-datetime.date(year, 1, 1). The month and day are needed, so 1's can be placeholders.
 """
 
 import datetime
 from dataclasses import dataclass
+import datetime
 
 
 @dataclass
@@ -15,7 +13,8 @@ class CarbonEmission:
     Instance Attributes:
         - country: The country in which the data is from
         - emissions: The carbon emissions in kilotons
-        - year: The year in which the data is from
+        - year: The year in which the data is from. Datetime.date in which the year is the year,
+            and the month and day are placeholder values, 1
 
     Representation Invariants:
         - self.country == 'Canada' or self.country == 'America'
@@ -23,8 +22,9 @@ class CarbonEmission:
         - 1960 <= self.year <= 2016
 
     Sample Usage:
-    >>> emission1 = CarbonEmission(country='Canda', emissions=13490.893, year=1960)
+    >>> emission1 = CarbonEmission(country='Canda', emissions=13490.893, \
+        year=datetime.date(1960,1,1))
     """
     country: str
     emissions: float
-    year: int
+    year: datetime.date

@@ -1,10 +1,8 @@
 """A file that contains the TemperatureDeviance dataclass
-
-Implementation Note: year is an integer, however if needed we can make it a
-datetime.date(year, 1, 1). The month and day are needed, so 1's can be placeholders.
 """
 
 from dataclasses import dataclass
+import datetime
 
 
 @dataclass
@@ -13,14 +11,16 @@ class TemperatureDeviance:
 
     Instance Attributes:
         - temperature_deviance: The temperature deviance for a year
-        - year: The year in which the data was recorded
+        - year: The year in which the data is from. Datetime.date in which the year is the year,
+            and the month and day are placeholder values, 1
 
     Representation Invariants:
         - isinstance(temperature_deviance, float)
         - 1910 <= year <= 2020
 
     Sample Usage:
-    >>> temp_deviance = TemperatureDeviance(temperature_deviance=0.45, year=1950)
+    >>> temp_deviance = TemperatureDeviance(temperature_deviance=0.45, year=datetime.date(1950,1,1))
     """
     temperature_deviance: float
-    year: int
+    year: datetime.date
+
