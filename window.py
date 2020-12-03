@@ -25,6 +25,7 @@ class Window:
      - _background_surface: a solid color for the surface
      - _buttons: Dictionary of buttons with button string names as keys and Button instances
                  as corresponding values.
+     - _clock: pygame.time.Clock instance, used for updating GUI
 
      Representation Invariants:
     - self._width > 0
@@ -40,6 +41,7 @@ class Window:
 
     _screen: pygame.Surface
     _gui_manager: pygame_gui.UIManager
+    _clock: pygame.time.Clock
 
     _background_surface: pygame.Surface
 
@@ -65,6 +67,9 @@ class Window:
         self._background_surface = pygame.Surface((self._width, self._height))
         self._background_surface.fill(self._gui_manager.ui_theme.get_colour('dark_bg'))
 
+        # Initialize clock
+        self._clock = pygame.time.Clock()
+
         # Initialize buttons
         self._init_buttons()
 
@@ -84,7 +89,8 @@ class Window:
     def _update(self) -> None:
         """Window loop body."""
 
-        # self._manager.update(time_delta)
+        # Get time delta in ms
+        time_delta = self._clock.tick(60) / 1000.0
 
         # Display background surface
         self._screen.blit(self._background_surface, (0, 0))
@@ -97,6 +103,9 @@ class Window:
 
         # Handle window events
         self._handle_events()
+
+        # Update GUI manager
+        self._gui_manager.update(time_delta)
 
     def _handle_events(self) -> None:
         """Handle PyGame window events"""
@@ -119,6 +128,8 @@ class Window:
                         if event.ui_element == self._buttons[button]:
                             self._buttons[button].press()
                             break
+
+            self._gui_manager.process_events(event)
 
     def _init_buttons(self) -> None:
         """
