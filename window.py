@@ -7,7 +7,7 @@ CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 
 import pygame
 import pygame_gui
-from typing import Dict
+from typing import Dict, List, Tuple
 from button import Button
 
 
@@ -23,13 +23,15 @@ class Window:
      - _screen: PyGame display surface
      - _gui_manager: pygame_gui UI Manager instance
      - _background_surface: a solid color for the surface
-     - _buttons: Dictionary of buttons with button string names as keys and Button instances
-                 as corresponding values.
+     - _buttons: List of buttons
      - _clock: pygame.time.Clock instance, used for updating GUI
 
-     Representation Invariants:
+    Representation Invariants:
     - self._width > 0
     - self._height > 0
+
+    Sample Usage:
+    >>> window = Window() # wow you did it!!!
 
     """
     _width: int
@@ -37,7 +39,7 @@ class Window:
     _title: str
     _running: bool
 
-    _buttons: Dict[str, Button]
+    _buttons: List[Button]
 
     _screen: pygame.Surface
     _gui_manager: pygame_gui.UIManager
@@ -50,11 +52,10 @@ class Window:
 
         # Initialize basic window attributes
         self._running = True
-        self._width = 800
+        self._width = 900
         self._height = 600
         self._title = "Wildfire Thing!"
-
-        self._buttons = {}
+        self._buttons = []
 
         # Initialize Pygame stuff
         self._screen = pygame.display.set_mode((self._width, self._height))
@@ -73,33 +74,25 @@ class Window:
         # Initialize buttons
         self._init_buttons()
 
-        # Start window loop
-        self._start_loop()
+    def draw_background(self) -> None:
+        """
+        Draws the background, call this BEFORE drawing images onto the window!
+        """
 
-    def _start_loop(self) -> None:
-        """Start infinite window loop"""
+        # Display background surface
+        self.draw_to_screen(self._background_surface, (0, 0))
 
-        # Start infinite loop
-        while self._running:
-            self._update()
-
-        # Once loop ends, quit pygame.
-        pygame.quit()
-
-    def _update(self) -> None:
+    def update(self) -> None:
         """Window loop body."""
 
         # Get time delta in ms
         time_delta = self._clock.tick(60) / 1000.0
 
-        # Display background surface
-        self._screen.blit(self._background_surface, (0, 0))
-
         # Draw UI
         self._gui_manager.draw_ui(self._screen)
 
         # Update Pygame Display
-        pygame.display.update()
+        pygame.display.flip()
 
         # Handle window events
         self._handle_events()
@@ -125,8 +118,8 @@ class Window:
                     # Loop through every button, and check if it is the button that was pressed
                     # (This is kind of bad and inefficient, look for a better way to do this!)
                     for button in self._buttons:
-                        if event.ui_element == self._buttons[button]:
-                            self._buttons[button].press()
+                        if event.ui_element == button:
+                            button.press()
                             break
 
             self._gui_manager.process_events(event)
@@ -137,10 +130,30 @@ class Window:
         and function that is to be called when the button is pressed.
         """
 
-        self._buttons['test'] = Button(rect=pygame.Rect((350, 280), (150, 40)),
-                                       label="Hey there!",
-                                       manager=self._gui_manager,
-                                       function=lambda: print("Hello!"))
+    def add_button(self, rect: pygame.Rect, label: str, function: any) -> None:
+        """
+        Add a button to list of buttons.
+
+        Preconditions:
+         - len(label) > 0
+         - function is of function type (callable)
+        """
+        self._buttons.append(Button(rect=rect, label=label,
+                                    manager=self._gui_manager, function=function))
+
+    def is_running(self) -> bool:
+        """ Return whether window is running."""
+        return self._running
+
+    def get_screen(self) -> pygame.Surface:
+        """ Return the background screen instance"""
+        return self._screen
+
+    def draw_to_screen(self, surface: pygame.Surface, position: Tuple[int, int]) -> None:
+        """
+        Draw surface with rect onto self._screen.
+        """
+        self._screen.blit(surface, position)
 
 
 if __name__ == "__main__":
