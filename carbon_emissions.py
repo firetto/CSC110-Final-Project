@@ -1,7 +1,11 @@
-"""A file that contains the CarbonEmission dataclass
+"""
+carbon_emissions.py:
+Contains the CarbonEmission dataclass. Used to store the carbon emission data of a country for
+a given year
+
+CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
 
-import datetime
 from dataclasses import dataclass
 import datetime
 

@@ -1,4 +1,9 @@
-"""A file that contains the TemperatureDeviance dataclass
+"""
+temperature_deviation.py:
+Contains the TemperatureDeviance dataclass. Used to store the temperature deviance for a given
+year.
+
+CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
 
 from dataclasses import dataclass

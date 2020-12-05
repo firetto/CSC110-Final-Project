@@ -1,6 +1,14 @@
-"""A file that contains the Wildfire dataclass
+"""
+wildfires.py:
+Contains the WildFire dataclass. Used to store information about wildfires such as their country
+of origin, location, and date of occurrence.
 
+CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
+
+#TODO: Delete this
+----------------------TO BE DELETED -----------------------------------------------
 Implementation Note: If needed we can add more information about the fires.
+-------------------------TO BE DELETED ------------------------------
 """
 
 import datetime
