@@ -218,6 +218,53 @@ class Data:
 
                 self.temperature_deviation[date] = temperature_deviance_data
 
+    def write_canadian_wild_fire_data(self, location: str) -> None:
+        """ Write the canadian wild fire data to a csv file named location. This removes all
+        the redundant data from the original CSV file.
+
+        Preconditions:
+            - '.csv' in location
+        """
+        with open(location, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            headers = ['YEAR', 'MONTH', 'DAY', 'LATITUDE', 'LONGITUDE']
+            writer.writerow(headers)
+
+            for date in self.wild_fires:
+                fires = [fire for fire in self.wild_fires[date] if fire.country == 'Canada']
+                for fire in fires:
+                    year = fire.date.year
+                    month = fire.date.month
+                    day = fire.date.day
+                    latitude = fire.location[0]
+                    longitude = fire.location[1]
+                    row = [year, month, day, latitude, longitude]
+                    writer.writerow(row)
+
+    def write_american_wild_fire_data(self, location: str) -> None:
+        """ Write the american wild fire data to a csv file named location. This removes all
+        the redundant data from the original CSV file.
+
+        Preconditions:
+            - '.csv' in location
+        """
+        with open(location, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            headers = ['DISCOVERY_DATE', 'LATITUDE', 'LONGITUDE']
+            writer.writerow(headers)
+
+            for date in self.wild_fires:
+                fires = [fire for fire in self.wild_fires[date] if fire.country == 'America']
+                for fire in fires:
+                    year = fire.date.year
+                    month = fire.date.month
+                    day = fire.date.day
+                    date = f'{year}-{month}-{day}'
+                    latitude = fire.location[0]
+                    longitude = fire.location[1]
+                    row = [date, latitude, longitude]
+                    writer.writerow(row)
+
 
 def find_index(target: str, lst: list) -> int:
     """Return the index of the target in lst
