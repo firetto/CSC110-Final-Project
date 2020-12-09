@@ -29,7 +29,7 @@ import csv
 
 
 class Data:
-    """ A Class used to handle various types of data
+    """A Class used to handle various types of data
 
     Instance Attributes:
         - wild_fires: A mapping of the date a fire occurred, to a list of WildFire objects for each
@@ -155,7 +155,6 @@ class Data:
 
             headers = next(reader)
             country_index = find_index('Country Name', headers)
-            print(country_index)
             current_index = starting_index = find_index('1960', headers)
 
             # Get only the data for Canada and the United States
@@ -219,12 +218,13 @@ class Data:
                 self.temperature_deviation[date] = temperature_deviance_data
 
     def write_canadian_wild_fire_data(self, location: str) -> None:
-        """ Write the canadian wild fire data to a csv file named location. This removes all
+        """Write the canadian wild fire data to a csv file named location. This removes all
         the redundant data from the original CSV file.
 
         Preconditions:
             - '.csv' in location
         """
+
         with open(location, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             headers = ['YEAR', 'MONTH', 'DAY', 'LATITUDE', 'LONGITUDE']
@@ -242,12 +242,13 @@ class Data:
                     writer.writerow(row)
 
     def write_american_wild_fire_data(self, location: str) -> None:
-        """ Write the american wild fire data to a csv file named location. This removes all
+        """Write the american wild fire data to a csv file named location. This removes all
         the redundant data from the original CSV file.
 
         Preconditions:
             - '.csv' in location
         """
+
         with open(location, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             headers = ['DISCOVERY_DATE', 'LATITUDE', 'LONGITUDE']
@@ -265,6 +266,67 @@ class Data:
                     row = [date, latitude, longitude]
                     writer.writerow(row)
 
+    def write_carbon_emission_data(self, location: str) -> None:
+        """Write the carbon emission data to a csv file named location. This removes all the
+        redundant data from the original CSV file.
+
+        Preconditions:
+            - '.csv' in location
+        """
+
+        with open(location, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            headers = ['Country Name']
+
+            for i in range(1960, 2017):  # 2017 is not included
+                headers.append(i)
+
+            # Write 4 blank rows at the top of the csv file to be consistent with the original
+            # CSV file
+            for _ in range(0, 4):
+                writer.writerow([])
+
+            writer.writerow(headers)
+
+            american_emissions = ['United States']
+            canadian_emissions = ['Canada']
+
+            for i in range(1960, 2017):
+                emissions = self.carbon_emissions[datetime.date(i, 1, 1)]
+                for emission in emissions:
+                    if emission.country == 'America':
+                        american_emissions.append(emission.emissions)
+                    else:
+                        canadian_emissions.append(emission.emissions)
+
+            writer.writerow(canadian_emissions)
+            writer.writerow(american_emissions)
+
+    def write_temperature_deviance_data(self, location: str) -> None:
+        """Write the temperature deviance data to a csv file named location. This removes all the
+        redundant data from the original CSV file
+
+        Preconditions:
+            - '.csv' in location
+
+        """
+
+        with open(location, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            headers = ['Year', 'Value']
+
+            # Write 4 blank rows at the top of the csv file to be consistent with the original
+            # CSV file
+            for _ in range(0, 4):
+                writer.writerow([])
+
+            writer.writerow(headers)
+
+            for date in self.temperature_deviation:
+                year = date.year
+                value = self.temperature_deviation[date].temperature_deviance
+                writer.writerow([year, value])
+
 
 def find_index(target: str, lst: list) -> int:
     """Return the index of the target in lst
@@ -275,3 +337,12 @@ def find_index(target: str, lst: list) -> int:
     for i in range(0, len(lst)):
         if lst[i] == target:
             return i
+
+
+# TODO: DELETE THIS
+if __name__ == '__main__':
+    my_data = Data()
+    my_data.get_wild_fires_canada('Canadian_Wildfire_Data.csv')
+    my_data.get_wild_fires_america('USA_Fire_Data.csv')
+    my_data.get_carbon_emission_data('CO2 Data.csv')
+    my_data.get_temperature_deviance_data('Temperature_Deviation_Data.csv')
