@@ -16,6 +16,8 @@ hard to fix
 - Currently uses two different methods for getting the fire data depending if its the Canada
 or America set. Can probably find a way to combine both methods if needed.
 
+- Can make methods private
+
 -----------------TO BE DELETED -------------------------------------------------------
 
 """
