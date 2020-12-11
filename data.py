@@ -35,7 +35,7 @@ class Data:
 
     Instance Attributes:
         - wild_fires: A mapping of the date a fire occurred, to a list of WildFire objects for each
-            fire that occured at that date.
+            fire that occurred at that date.
         - carbon_emissions: A mapping of the date (year only, month and day are placeholder values)
             to a list of CarbonEmission objects for that date. The list contain two elements, one
             object for Canada and America
@@ -86,6 +86,7 @@ class Data:
             data = [row for row in reader]
 
             for row in data:
+
                 if int(row[year_index]) != 0 and int(row[month_index]) != 0 \
                         and int(row[day_index]) != 0:
                     location = (float(row[latitude_index]), float(row[longitude_index]))
@@ -94,11 +95,12 @@ class Data:
 
                     fire = WildFire('Canada', location, date)
 
-                    # If the current date does not have a fire, add it. Else append it
-                    if date not in self.wild_fires:
-                        self.wild_fires[date] = [fire]
-                    else:
+                    # If the current date does already has a list
+                    # of fires, append it. If not, initialize list.
+                    if date in self.wild_fires:
                         self.wild_fires[date].append(fire)
+                    else:
+                        self.wild_fires[date] = [fire]
 
     def get_wild_fires_america(self, location: str) -> None:
         """Mutates the wild_fires local variable to include the wild_fire_data from america
@@ -127,15 +129,23 @@ class Data:
 
             for row in data:
                 location = (float(row[latitude_index]), float(row[longitude_index]))
-                date_list = row[date_index].split('-')  # Stored in the data as "year-month-day"
-                date = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+
+                # Stored in the data as "year-month-day"
+                date_list = row[date_index].split('-')
+
+                date = datetime.date(year=int(date_list[0]),
+                                     month=int(date_list[1]),
+                                     day=int(date_list[2]))
+
                 fire = WildFire('America', location, date)
 
-                # If the current date does not have a fire, add it. Else append it
-                if date not in self.wild_fires:
-                    self.wild_fires[date] = [fire]
-                else:
+                # If the current date does already has a list
+                # of fires, append it. If not, initialize list.
+                # TODO: maybe make a helper function for this?
+                if date in self.wild_fires:
                     self.wild_fires[date].append(fire)
+                else:
+                    self.wild_fires[date] = [fire]
 
     def get_carbon_emission_data(self, location: str) -> None:
         """Mutates the carbon_emissions local variable to include the carbon emission data.
@@ -178,10 +188,11 @@ class Data:
 
                     current_index += 1
 
-                    if date not in self.carbon_emissions:
-                        self.carbon_emissions[date] = [carbon_data]
-                    else:
+                    if date in self.carbon_emissions:
                         self.carbon_emissions[date].append(carbon_data)
+
+                    else:
+                        self.carbon_emissions[date] = [carbon_data]
 
                 current_index = starting_index
 
@@ -234,11 +245,8 @@ class Data:
             for date in self.wild_fires:
                 fires = [fire for fire in self.wild_fires[date] if fire.country == 'Canada']
                 for fire in fires:
-                    year = fire.date.year
-                    month = fire.date.month
-                    day = fire.date.day
-                    latitude = fire.location[0]
-                    longitude = fire.location[1]
+                    year, month, day = fire.date.year, fire.date.month, fire.date.day
+                    latitude, longitude = fire.location
                     row = [year, month, day, latitude, longitude]
                     writer.writerow(row)
 
@@ -256,14 +264,14 @@ class Data:
             writer.writerow(headers)
 
             for date in self.wild_fires:
+
                 fires = [fire for fire in self.wild_fires[date] if fire.country == 'America']
+
                 for fire in fires:
-                    year = fire.date.year
-                    month = fire.date.month
-                    day = fire.date.day
+                    year, month, day = fire.date.year, fire.date.month, fire.date.day
+                    latitude, longitude = fire.location
                     date = f'{year}-{month}-{day}'
-                    latitude = fire.location[0]
-                    longitude = fire.location[1]
+
                     row = [date, latitude, longitude]
                     writer.writerow(row)
 
