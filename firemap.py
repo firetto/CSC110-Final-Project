@@ -15,6 +15,7 @@ class FireMap:
     """
     Wrapper class for the core wildfire map, storing the map image and
     providing methods to draw dots on the map.
+
     """
 
     # Private Instance Attributes:
@@ -22,20 +23,24 @@ class FireMap:
     #                   the map is to be drawn onto the screen.
     # - _map_image: PyGame Surface containing background image of the map
     # - _map_surface: PyGame Surface onto which map image and dots will be drawn.
-    # - MAP_POSITION: The position of the top-left corner of the map image
-    # - MAP_COORDINATE_BOUNDS: Latitude and longitude of the top left and bottom right
-    #                          corners of the map image
+    # - _map_date_text: The string representation of the date that will be drawn.
+    # - _MAP_POSITION: The position of the top-left corner of the map image
+    # - _MAP_COORDINATE_BOUNDS: Latitude and longitude of the top left and bottom right
+    #                           corners of the map image
+    # - _MAP_DATE_LABEL_POSITION: The position of where the date label is to be drawn on the map
 
     # TODO: Think about adding an "intensity" to the dots to change the size of the dots drawn
     _dot_positions: List[Tuple[float, float]]
     _map_image: pygame.Surface
     _map_surface: pygame.Surface
+    _map_date_text: str
 
     # CONSTANTS
-    MAP_POSITION: Tuple[int, int] = (50, 0)
+    _MAP_POSITION: Tuple[int, int] = (50, 0)
 
     # (top left, top right) latitude and longitude
-    MAP_COORDINATE_BOUNDS: Tuple[Tuple[int, int], Tuple[int, int]] = ((90, -180), (15, -45))
+    _MAP_COORDINATE_BOUNDS: Tuple[Tuple[int, int], Tuple[int, int]] = ((90, -180), (15, -45))
+    _MAP_DATE_LABEL_POSITION: Tuple[int, int] = (0, 0)
 
     def __init__(self) -> None:
         """
@@ -48,6 +53,9 @@ class FireMap:
         # Load the map image
         self._map_image = pygame.image.load(os.path.join("assets/map.png"))
         self._map_image.convert()
+
+        # Set a placeholder value for the text.
+        self._map_date_text = "Click `Play/Pause`"
 
         # Initialize map surface with size based on image size.
         self._map_surface = pygame.Surface(self._map_image.get_size())
@@ -67,8 +75,14 @@ class FireMap:
         for position in self._dot_positions:
             pygame.draw.circle(self._map_surface, (255, 0, 0), position, 10)
 
+        # Draw the date label onto the map
+        self._map_surface.blit(window.render_text(text=self._map_date_text, antialias=True,
+                                                  color=pygame.color.Color([255, 255, 255]),
+                                                  background=pygame.color.Color(0, 0, 0, 50)),
+                               self._MAP_DATE_LABEL_POSITION)
+
         # Draw the map surface on the screen
-        window.draw_to_screen(surface=self._map_surface, position=self.MAP_POSITION)
+        window.draw_to_screen(surface=self._map_surface, position=self._MAP_POSITION)
 
     def add_dot(self, coordinates: Tuple[float, float]) -> None:
         """
@@ -86,6 +100,15 @@ class FireMap:
         """
 
         self._dot_positions.clear()
+
+    def set_map_date_text(self, text: str) -> None:
+        """
+        Update the map date text.
+
+        Preconditions:
+         - len(text) > 0
+        """
+        self._map_date_text = text
 
     def _coords_to_pixel(self, coordinates: Tuple[float, float]) -> Tuple[int, int]:
         """
@@ -110,8 +133,8 @@ class FireMap:
         latitude, longitude = coordinates
 
         # Top left and bottom right latitudes and longitudes
-        top_left = self.MAP_COORDINATE_BOUNDS[0]
-        bot_right = self.MAP_COORDINATE_BOUNDS[1]
+        top_left = self._MAP_COORDINATE_BOUNDS[0]
+        bot_right = self._MAP_COORDINATE_BOUNDS[1]
 
         # X and Y ratios of the coordinate's position relative to the image
         # This will be multiplied by the image size later, so it's just a proportion

@@ -30,6 +30,7 @@ class Window:
     # - _buttons: List of buttons
     # - _clock: pygame.time.Clock instance, used for updating GUI
     # - _time_delta: the time delta in milliseconds for this update
+    # - _font: PyGame font instance, used for rendering text.
 
     # Private Representation Invariants:
     # - self._width > 0
@@ -48,6 +49,7 @@ class Window:
     _time_delta: float
 
     _background_surface: pygame.Surface
+    _font: pygame.font.Font
 
     def __init__(self) -> None:
         """Initialize window attributes, start window loop."""
@@ -73,6 +75,9 @@ class Window:
         # Initialize clock
         self._clock = pygame.time.Clock()
         self._time_delta = 0
+
+        # Initialize font
+        self._font = pygame.font.Font(None, 32)
 
         # Initialize buttons
         self._init_buttons()
@@ -170,3 +175,13 @@ class Window:
         Return the time delta in milliseconds.
         """
         return self._time_delta
+
+    def render_text(self, text: str, antialias: bool,
+                    color: pygame.color.Color, background: pygame.color.Color) -> pygame.Surface:
+        """
+        Return the pygame Font render given the parameters.
+
+        Preconditions:
+        - len(text) > 0
+        """
+        return self._font.render(text, antialias, color, background)

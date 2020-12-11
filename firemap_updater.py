@@ -25,6 +25,9 @@ class FireMapUpdater:
     # - _day_increment: How many days to increment for every update
     # - _update_delay: Number of milliseconds to wait before updating the fire map
     # - _time_delta_so_far: Number of milliseconds elapsed since the last update
+    # - _animating: whether the timelapse is animating, and whether the map should be updated.
+    # - _last_date: The last date of the timelapse
+    # - _first_date: The last date of the timelapse
     # Private Representation Invariants:
     # - self._day_increment > 0
     # - self._update_delay > 0
@@ -34,19 +37,25 @@ class FireMapUpdater:
     _day_increment: int
     _update_delay: float
     _time_delta_so_far: float
+    _animating: bool
+
+    _last_date: datetime.date
+    _first_date: datetime.date
 
     def __init__(self, data: Data, firemap: FireMap) -> None:
         """Initialize instances"""
         self._data = data
         self._map = firemap
-        self._date = data.find_first_date()
+
+        self._first_date = data.find_first_date()
+        self._last_date = data.find_last_date()
+        self._date = self._first_date
 
         self._day_increment = 1
         self._update_delay = 10
         self._time_delta_so_far = 0
 
-        # TEST:
-        self._draw_wildfire_dots()
+        self._animating = True
 
     def _draw_wildfire_dots(self) -> bool:
         """
@@ -67,10 +76,18 @@ class FireMapUpdater:
         """Increment the date by self._day_increment."""
         self._date += datetime.timedelta(days=self._day_increment)
 
+        # Check if the date is later than the last date of the timelapse. If so,
+        # Stop the timelapse and set date to the last date.
+        if self._date > self._last_date:
+            self._date = self._last_date
+            self.stop_animation()
+
     def _update_map(self) -> None:
+        """Update the map by incrementing the date and redrawing the dots."""
+
         self._increment_date()
 
-        print(self._date)
+        self._map.set_map_date_text(str(self._date))
 
         self._map.clear_dots()
         self._draw_wildfire_dots()
@@ -86,6 +103,9 @@ class FireMapUpdater:
          - delta > 0
         """
 
+        if not self._animating:
+            return False
+
         self._time_delta_so_far += delta
 
         if self._time_delta_so_far >= self._update_delay:
@@ -97,3 +117,15 @@ class FireMapUpdater:
             return True
         else:
             return False
+
+    def start_animation(self) -> None:
+        """Start the timelapse."""
+        self._animating = True
+
+    def stop_animation(self) -> None:
+        """Stop the timelapse."""
+        self._animating = False
+
+    def toggle_animation(self) -> None:
+        """Toggle the state of self._animating."""
+        self._animating = not self._animating

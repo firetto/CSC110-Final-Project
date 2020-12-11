@@ -36,6 +36,9 @@ if __name__ == "__main__":
     # window.add_button(pygame.Rect((550, 480), (150, 40)),
     #                   "Clear dots", lambda: firemap.clear_dots())
 
+    window.add_button(pygame.Rect((550, 480), (150, 40)),
+                      "Play/Pause", lambda: firemap_updater.toggle_animation())
+
     # Window loop
     while window.is_running():
 
