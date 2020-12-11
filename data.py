@@ -310,13 +310,16 @@ class Data:
         date already exists within the dictionary append the fire, otherwise, create a new key
         of date with the value of fire.
 
+        Only accept fires that occurred in or after 1950.
+
         This function is called within get_wild_fires_canada and get_wild_fires_america.
         """
 
-        if date in self.wild_fires:
-            self.wild_fires[date].append(fire)
-        else:
-            self.wild_fires[date] = [fire]
+        if date >= datetime.date(1950, 1, 1):
+            if date in self.wild_fires:
+                self.wild_fires[date].append(fire)
+            else:
+                self.wild_fires[date] = [fire]
 
     def find_first_date(self) -> datetime.date:
         """
