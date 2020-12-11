@@ -202,10 +202,8 @@ class Data:
             reader = csv.reader(file)
 
             # Remove the first 4 lines from the reader, so they are not included in the data.
-            line_1 = next(reader)
-            line_2 = next(reader)
-            line_3 = next(reader)
-            line_4 = next(reader)
+            for _ in range(4):
+                next(reader)
 
             headers = next(reader)
 
