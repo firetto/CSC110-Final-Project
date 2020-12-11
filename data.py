@@ -317,3 +317,9 @@ class Data:
             self.wild_fires[date].append(fire)
         else:
             self.wild_fires[date] = [fire]
+
+    def find_first_date(self) -> datetime.date:
+        """
+        Return the first date entry that appears in self.wild_fires.
+        """
+        return min(self.wild_fires)

@@ -10,6 +10,7 @@ import pygame
 import random
 from window import Window
 from firemap import FireMap
+from firemap_updater import FireMapUpdater
 from data import Data
 
 if __name__ == "__main__":
@@ -26,12 +27,14 @@ if __name__ == "__main__":
     # Initialize data
     data = Data()
 
+    firemap_updater = FireMapUpdater(data=data, firemap=firemap)
+
     # Temporary buttons
-    window.add_button(pygame.Rect((350, 480), (150, 40)),
-                      "Add random dot", lambda: firemap.add_dot((random.randint(15, 90),
-                                                                 random.randint(-180, -45))))
-    window.add_button(pygame.Rect((550, 480), (150, 40)),
-                      "Clear dots", lambda: firemap.clear_dots())
+    # window.add_button(pygame.Rect((350, 480), (150, 40)),
+    #                   "Add random dot", lambda: firemap.add_dot((random.randint(15, 90),
+    #                                                              random.randint(-180, -45))))
+    # window.add_button(pygame.Rect((550, 480), (150, 40)),
+    #                   "Clear dots", lambda: firemap.clear_dots())
 
     # Window loop
     while window.is_running():
