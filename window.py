@@ -14,26 +14,26 @@ from button import Button
 class Window:
     """
     Window class containing window update methods and window attributes.
-
-    Instance Attributes:
-     - _width: The width of the window (in px). Preset to be 800px.
-     - _height: The height of the window (in px). Preset to be 600px.
-     - _title: The name of the window
-     - _running: Whether the window is running. If not, the window should close.
-     - _screen: PyGame display surface
-     - _gui_manager: pygame_gui UI Manager instance
-     - _background_surface: a solid color for the surface
-     - _buttons: List of buttons
-     - _clock: pygame.time.Clock instance, used for updating GUI
-
-    Representation Invariants:
-    - self._width > 0
-    - self._height > 0
-
     Sample Usage:
     >>> window = Window() # wow you did it!!!
 
     """
+
+    # Private Instance Attributes:
+    # - _width: The width of the window (in px). Preset to be 800px.
+    # - _height: The height of the window (in px). Preset to be 600px.
+    # - _title: The name of the window
+    # - _running: Whether the window is running. If not, the window should close.
+    # - _screen: PyGame display surface
+    # - _gui_manager: pygame_gui UI Manager instance
+    # - _background_surface: a solid color for the surface
+    # - _buttons: List of buttons
+    # - _clock: pygame.time.Clock instance, used for updating GUI
+
+    # Private Representation Invariants:
+    # - self._width > 0
+    # - self._height > 0
+
     _width: int
     _height: int
     _title: str
@@ -142,20 +142,19 @@ class Window:
                                     manager=self._gui_manager, function=function))
 
     def is_running(self) -> bool:
-        """ Return whether window is running."""
+        """
+        Return whether window is running.
+        """
         return self._running
 
     def get_screen(self) -> pygame.Surface:
-        """ Return the background screen instance"""
+        """
+        Return the background screen instance.
+        """
         return self._screen
 
     def draw_to_screen(self, surface: pygame.Surface, position: Tuple[int, int]) -> None:
         """
-        Draw surface with rect onto self._screen.
+        Draw surface at position onto self._screen.
         """
         self._screen.blit(surface, position)
-
-
-if __name__ == "__main__":
-    pygame.init()
-    window = Window()

@@ -15,16 +15,16 @@ class FireMap:
     """
     Wrapper class for the wildfire map, storing the map image and
     providing methods to draw dots on the map.
-
-    Instance Attributes:
-     - _dot_positions: A list of positions to draw dots on the map the next time
-                       the map is to be drawn onto the screen.
-     - _map_image: PyGame Surface containing background image of the map
-     - _map_surface: PyGame Surface onto which map image and dots will be drawn.
-     - MAP_POSITION: The position of the top-left corner of the map image
-     - MAP_COORDINATE_BOUNDS: Latitude and longitude of the top left and bottom right
-                              corners of the map image
     """
+
+    # Private Instance Attributes:
+    # - _dot_positions: A list of positions to draw dots on the map the next time
+    #                   the map is to be drawn onto the screen.
+    # - _map_image: PyGame Surface containing background image of the map
+    # - _map_surface: PyGame Surface onto which map image and dots will be drawn.
+    # - MAP_POSITION: The position of the top-left corner of the map image
+    # - MAP_COORDINATE_BOUNDS: Latitude and longitude of the top left and bottom right
+    #                          corners of the map image
 
     # TODO: Think about adding an "intensity" to the dots to change the size of the dots drawn
     _dot_positions: List[Tuple[float, float]]
