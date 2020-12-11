@@ -93,13 +93,7 @@ class Data:
                                          int(row[day_index]))
 
                     fire = WildFire('Canada', location, date)
-
-                    # If the current date does already has a list
-                    # of fires, append it. If not, initialize list.
-                    if date in self.wild_fires:
-                        self.wild_fires[date].append(fire)
-                    else:
-                        self.wild_fires[date] = [fire]
+                    self._add_fire(date, fire)
 
     def get_wild_fires_america(self, location: str) -> None:
         """Mutates the wild_fires local variable to include the wild_fire_data from america
@@ -132,14 +126,7 @@ class Data:
                                      day=int(date_list[2]))
 
                 fire = WildFire('America', location, date)
-
-                # If the current date does already has a list
-                # of fires, append it. If not, initialize list.
-                # TODO: maybe make a helper function for this?
-                if date in self.wild_fires:
-                    self.wild_fires[date].append(fire)
-                else:
-                    self.wild_fires[date] = [fire]
+                self._add_fire(date, fire)
 
     def get_carbon_emission_data(self, location: str) -> None:
         """Mutates the carbon_emissions local variable to include the carbon emission data.
@@ -318,6 +305,18 @@ class Data:
                 value = self.temperature_deviation[date].temperature_deviance
                 writer.writerow([year, value])
 
+    def _add_fire(self, date: datetime.date, fire: WildFire) -> None:
+        """Mutate the wild_fires dictionary to include the fire that corresponds to date. If the
+        date already exists within the dictionary append the fire, otherwise, create a new key
+        of date with the value of fire.
+
+        This function is called within get_wild_fires_canada and get_wild_fires_america.
+        """
+
+        if date in self.wild_fires:
+            self.wild_fires[date].append(fire)
+        else:
+            self.wild_fires[date] = [fire]
 
 # TODO: DELETE THIS
 if __name__ == '__main__':
