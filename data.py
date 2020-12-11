@@ -326,3 +326,7 @@ class Data:
         Return the first date entry that appears in self.wild_fires.
         """
         return min(self.wild_fires)
+
+    def find_last_date(self) -> datetime.date:
+        """Return the last date entry that appears in self.wild_fires."""
+        return max(self.wild_fires)

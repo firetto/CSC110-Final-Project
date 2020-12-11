@@ -29,6 +29,7 @@ class Window:
     # - _background_surface: a solid color for the surface
     # - _buttons: List of buttons
     # - _clock: pygame.time.Clock instance, used for updating GUI
+    # - _time_delta: the time delta in milliseconds for this update
 
     # Private Representation Invariants:
     # - self._width > 0
@@ -44,6 +45,7 @@ class Window:
     _screen: pygame.Surface
     _gui_manager: pygame_gui.UIManager
     _clock: pygame.time.Clock
+    _time_delta: float
 
     _background_surface: pygame.Surface
 
@@ -70,6 +72,7 @@ class Window:
 
         # Initialize clock
         self._clock = pygame.time.Clock()
+        self._time_delta = 0
 
         # Initialize buttons
         self._init_buttons()
@@ -85,9 +88,6 @@ class Window:
     def update(self) -> None:
         """Window loop body."""
 
-        # Get time delta in ms
-        time_delta = self._clock.tick(60) / 1000.0
-
         # Draw UI
         self._gui_manager.draw_ui(self._screen)
 
@@ -97,8 +97,8 @@ class Window:
         # Handle window events
         self._handle_events()
 
-        # Update GUI manager
-        self._gui_manager.update(time_delta)
+        # Update GUI manager (time takes seconds and not ms, so divide by 1000)
+        self._gui_manager.update(self._time_delta / 1000.0)
 
     def _handle_events(self) -> None:
         """Handle PyGame window events"""
@@ -158,3 +158,15 @@ class Window:
         Draw surface at position onto self._screen.
         """
         self._screen.blit(surface, position)
+
+    def update_clock(self) -> None:
+        """
+        Update the clock and set self._time_delta to be the time delta in milliseconds.
+        """
+        self._time_delta = self._clock.tick(60)
+
+    def get_delta(self) -> float:
+        """
+        Return the time delta in milliseconds.
+        """
+        return self._time_delta

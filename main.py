@@ -39,13 +39,23 @@ if __name__ == "__main__":
     # Window loop
     while window.is_running():
 
+        """ UPDATE STUFF """
+
+        # Update the window's clock
+        window.update_clock()
+
+        # Update the delta of the FireMapUpdater
+        firemap_updater.update_delta(window.get_delta())
+
+        """ DRAW STUFF """
+
         # Draw the background first!!!!
         window.draw_background()
 
         # Draw the map stuff (image, dots)
         firemap.draw(window)
 
-        # Draw the rest of the stuff, update the window!
+        # Draw the rest of the stuff and update the window!
         window.update()
 
     # Once loop ends, quit pygame.
