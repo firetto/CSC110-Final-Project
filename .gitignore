@@ -1,5 +1,4 @@
 
-.idea/workspace.xml
-__pycache__/carbon_emissions.cpython-38.pyc
-__pycache__/temperature_deviation.cpython-38.pyc
-__pycache__/wildfires.cpython-38.pyc
+*.pyc
+.idea/
+__pycache__/
