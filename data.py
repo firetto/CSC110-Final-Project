@@ -74,11 +74,11 @@ class Data:
             # in the data.
             headers = next(reader)
 
-            latitude_index = find_index('LATITUDE', headers)
-            longitude_index = find_index('LONGITUDE', headers)
-            year_index = find_index('YEAR', headers)
-            month_index = find_index('MONTH', headers)
-            day_index = find_index('DAY', headers)
+            latitude_index = headers.index('LATITUDE')
+            longitude_index = headers.index('LONGITUDE')
+            year_index = headers.index('YEAR')
+            month_index = headers.index('MONTH')
+            day_index = headers.index('DAY')
 
             data = [row for row in reader]
 
@@ -328,18 +328,6 @@ class Data:
                 year = date.year
                 value = self.temperature_deviation[date].temperature_deviance
                 writer.writerow([year, value])
-
-
-def find_index(target: str, lst: list) -> int:
-    """Return the index of the target in lst
-
-    Preconditions:
-        - target in lst
-    """
-    for i in range(0, len(lst)):
-        if lst[i] == target:
-            return i
-
 
 # TODO: DELETE THIS
 if __name__ == '__main__':
