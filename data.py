@@ -51,6 +51,9 @@ class Data:
     temperature_deviation: Dict[datetime.date, TemperatureDeviance]
 
     def __init__(self) -> None:
+        """
+        Initialize empty dictionaries.
+        """
         self.wild_fires = {}
         self.carbon_emissions = {}
         self.temperature_deviation = {}
@@ -58,7 +61,7 @@ class Data:
     def get_wild_fires_canada(self, location: str) -> None:
         """Mutates the wild_fires local variable to include the wild_fire_data from canada
 
-        #TODO: DELETE THIS
+        # TODO: DELETE THIS
         Implementation Note:
         - If we do make the __init__ method populate right away, we can make this function
         return the dictionary instead of mutating, and then call the function in the __init__.
@@ -116,9 +119,9 @@ class Data:
             # in the data.
             headers = next(reader)
 
-            latitude_index = find_index('LATITUDE', headers)
-            longitude_index = find_index('LONGITUDE', headers)
-            date_index = find_index('DISCOVERY_DATE', headers)
+            latitude_index = headers.index('LATITUDE')
+            longitude_index = headers.index('LONGITUDE')
+            date_index = headers.index('DISCOVERY_DATE')
 
             data = [row for row in reader]
 
@@ -156,8 +159,8 @@ class Data:
             line_4 = next(reader)
 
             headers = next(reader)
-            country_index = find_index('Country Name', headers)
-            current_index = starting_index = find_index('1960', headers)
+            country_index = headers.index('Country Name')
+            current_index = starting_index = headers.index('1960')
 
             # Get only the data for Canada and the United States
             data = [row for row in reader if row[country_index] == 'Canada'
@@ -328,6 +331,7 @@ class Data:
                 year = date.year
                 value = self.temperature_deviation[date].temperature_deviance
                 writer.writerow([year, value])
+
 
 # TODO: DELETE THIS
 if __name__ == '__main__':
