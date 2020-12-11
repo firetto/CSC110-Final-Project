@@ -57,14 +57,13 @@ class Data:
         self.wild_fires = {}
         self.carbon_emissions = {}
         self.temperature_deviation = {}
+        self.get_wild_fires_canada('canada_wildfire_data.csv')
+        self.get_wild_fires_america('america_wildfire_data.csv')
+        self.get_carbon_emission_data('carbon_data.csv')
+        self.get_temperature_deviance_data('temperature_deviance_data.csv')
 
     def get_wild_fires_canada(self, location: str) -> None:
         """Mutates the wild_fires local variable to include the wild_fire_data from canada
-
-        # TODO: DELETE THIS
-        Implementation Note:
-        - If we do make the __init__ method populate right away, we can make this function
-        return the dictionary instead of mutating, and then call the function in the __init__.
 
         Preconditions:
             - location is the location of the 'Canadian_Wildfire_Data.csv' file.
@@ -105,11 +104,6 @@ class Data:
     def get_wild_fires_america(self, location: str) -> None:
         """Mutates the wild_fires local variable to include the wild_fire_data from america
 
-        #TODO: DELETE THIS
-        Implementation Note:
-        - If we do make the __init__ method populate right away, we can make this function
-        return the dictionary instead of mutating, and then call the function in the __init__.
-
         Preconditions:
             - location is the location of the 'USA_Fire_Data.csv' file.
         """
@@ -149,11 +143,6 @@ class Data:
 
     def get_carbon_emission_data(self, location: str) -> None:
         """Mutates the carbon_emissions local variable to include the carbon emission data.
-
-        #TODO: DELETE THIS
-        Implementation Note:
-        - If we do make the __init__ method populate right away, we can make this function
-        return the dictionary instead of mutating, and then call the function in the __init__.
 
         Preconditions:
             - location is the location of the 'CO2 Data.csv' file.
@@ -200,11 +189,6 @@ class Data:
         """Mutates the temperature_deviation local variable to include the temperature
         deviation data.
 
-        #TODO: DELETE THIS
-        Implementation Note:
-        - If we do make the __init__ method populate right away, we can make this function
-        return the dictionary instead of mutating, and then call the function in the __init__.
-
         Preconditions:
             - location is the location of the 'Temperature_Deviation_Data.csv' file.
         """
@@ -243,12 +227,12 @@ class Data:
             writer.writerow(headers)
 
             for date in self.wild_fires:
-                fires = [fire for fire in self.wild_fires[date] if fire.country == 'Canada']
-                for fire in fires:
-                    year, month, day = fire.date.year, fire.date.month, fire.date.day
-                    latitude, longitude = fire.location
-                    row = [year, month, day, latitude, longitude]
-                    writer.writerow(row)
+                for fire in self.wild_fires[date]:
+                    if fire.country == 'Canada':
+                        year, month, day = fire.date.year, fire.date.month, fire.date.day
+                        latitude, longitude = fire.location
+                        row = [year, month, day, latitude, longitude]
+                        writer.writerow(row)
 
     def write_american_wild_fire_data(self, location: str) -> None:
         """Write the american wild fire data to a csv file named location. This removes all
@@ -264,16 +248,14 @@ class Data:
             writer.writerow(headers)
 
             for date in self.wild_fires:
+                for fire in self.wild_fires[date]:
+                    if fire.country == 'America':
+                        year, month, day = fire.date.year, fire.date.month, fire.date.day
+                        latitude, longitude = fire.location
+                        date = f'{year}-{month}-{day}'
 
-                fires = [fire for fire in self.wild_fires[date] if fire.country == 'America']
-
-                for fire in fires:
-                    year, month, day = fire.date.year, fire.date.month, fire.date.day
-                    latitude, longitude = fire.location
-                    date = f'{year}-{month}-{day}'
-
-                    row = [date, latitude, longitude]
-                    writer.writerow(row)
+                        row = [date, latitude, longitude]
+                        writer.writerow(row)
 
     def write_carbon_emission_data(self, location: str) -> None:
         """Write the carbon emission data to a csv file named location. This removes all the
@@ -338,9 +320,6 @@ class Data:
 
 
 # TODO: DELETE THIS
-if __name__ == '__main__':
-    my_data = Data()
-    my_data.get_wild_fires_canada('Canadian_Wildfire_Data.csv')
-    my_data.get_wild_fires_america('USA_Fire_Data.csv')
-    my_data.get_carbon_emission_data('CO2 Data.csv')
-    my_data.get_temperature_deviance_data('Temperature_Deviation_Data.csv')
+# if __name__ == '__main__':
+#     my_data = Data()
+
