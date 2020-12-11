@@ -1,7 +1,7 @@
 """
 firemap.py
 
-Contains functions for drawing the map onto the screen.
+Contains functions for drawing the map onto the screen, along with drawing dots onto the map.
 
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
@@ -13,7 +13,7 @@ from window import Window
 
 class FireMap:
     """
-    Wrapper class for the wildfire map, storing the map image and
+    Wrapper class for the core wildfire map, storing the map image and
     providing methods to draw dots on the map.
     """
 

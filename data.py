@@ -317,8 +317,3 @@ class Data:
                 year = date.year
                 value = self.temperature_deviation[date].temperature_deviance
                 writer.writerow([year, value])
-
-
-# TODO: DELETE THIS
-if __name__ == '__main__':
-    my_data = Data()

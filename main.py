@@ -10,6 +10,7 @@ import pygame
 import random
 from window import Window
 from firemap import FireMap
+from data import Data
 
 if __name__ == "__main__":
 
@@ -21,6 +22,9 @@ if __name__ == "__main__":
 
     # Initialize map image & dots
     firemap = FireMap()
+
+    # Initialize data
+    data = Data()
 
     # Temporary buttons
     window.add_button(pygame.Rect((350, 480), (150, 40)),
