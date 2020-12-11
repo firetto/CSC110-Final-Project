@@ -20,12 +20,11 @@ class TemperatureDeviance:
             and the month and day are placeholder values, 1
 
     Representation Invariants:
-        - isinstance(temperature_deviance, float)
-        - 1910 <= year <= 2020
+        - isinstance(self.temperature_deviance, float)
+        - 1910 <= self.year <= 2020
 
     Sample Usage:
     >>> temp_deviance = TemperatureDeviance(temperature_deviance=0.45, year=datetime.date(1950,1,1))
     """
     temperature_deviance: float
     year: datetime.date
-

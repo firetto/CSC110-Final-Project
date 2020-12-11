@@ -17,8 +17,8 @@ class CarbonEmission:
     Instance Attributes:
         - country: The country in which the data is from
         - emissions: The carbon emissions in kilotons
-        - year: The year in which the data is from. Datetime.date in which the year is the year,
-            and the month and day are placeholder values, 1
+        - year: The year in which the data is from. datetime.date in which the year is the year,
+            and the month and day are placeholder values of 1
 
     Representation Invariants:
         - self.country == 'Canada' or self.country == 'America'
@@ -26,7 +26,7 @@ class CarbonEmission:
         - 1960 <= self.year <= 2016
 
     Sample Usage:
-    >>> emission1 = CarbonEmission(country='Canda', emissions=13490.893, \
+    >>> emission1 = CarbonEmission(country='Canada', emissions=13490.893, \
         year=datetime.date(1960,1,1))
     """
     country: str
