@@ -66,7 +66,7 @@ class Data:
         """Mutates the wild_fires local variable to include the wild_fire_data from canada
 
         Preconditions:
-            - location is the location of the 'Canadian_Wildfire_Data.csv' file.
+            - location is the location of the 'canada_wildfire_data.csv file.
         """
 
         with open(location, encoding="utf8") as file:
@@ -105,7 +105,7 @@ class Data:
         """Mutates the wild_fires local variable to include the wild_fire_data from america
 
         Preconditions:
-            - location is the location of the 'USA_Fire_Data.csv' file.
+            - location is the location of the 'america_wildfire_data.csv' file.
         """
 
         with open(location) as file:
@@ -145,7 +145,7 @@ class Data:
         """Mutates the carbon_emissions local variable to include the carbon emission data.
 
         Preconditions:
-            - location is the location of the 'CO2 Data.csv' file.
+            - location is the location of the 'carbon_data.csv' file.
         """
 
         with open(location) as file:
@@ -190,7 +190,7 @@ class Data:
         deviation data.
 
         Preconditions:
-            - location is the location of the 'Temperature_Deviation_Data.csv' file.
+            - location is the location of the 'temperature_deviance_data.csv' file.
         """
 
         with open(location) as file:
@@ -318,7 +318,7 @@ class Data:
                 value = self.temperature_deviation[date].temperature_deviance
                 writer.writerow([year, value])
 
-# TODO: DELETE THIS
-# if __name__ == '__main__':
-#     my_data = Data()
 
+# TODO: DELETE THIS
+if __name__ == '__main__':
+    my_data = Data()
