@@ -59,7 +59,7 @@ class Data:
         self.temperature_deviation = {}
 
     def get_wild_fires_canada(self, location: str) -> None:
-        """Mutates the wild_fires local variable to include the wild_fire_data from canada
+        """Mutates the wild_fires local variable to include the wild_fire_data from Canada
 
         # TODO: DELETE THIS
         Implementation Note:
@@ -67,7 +67,7 @@ class Data:
         return the dictionary instead of mutating, and then call the function in the __init__.
 
         Preconditions:
-            - location is the location of the 'Canadian_Wildfire_Data.csv' file.
+            - location is the location of the 'canada_wildfire_data.csv' file.
         """
 
         with open(location, encoding="utf8") as file:
@@ -111,7 +111,7 @@ class Data:
         return the dictionary instead of mutating, and then call the function in the __init__.
 
         Preconditions:
-            - location is the location of the 'USA_Fire_Data.csv' file.
+            - location is the location of the 'america_wildfire_data.csv' file.
         """
 
         with open(location) as file:
@@ -156,7 +156,7 @@ class Data:
         return the dictionary instead of mutating, and then call the function in the __init__.
 
         Preconditions:
-            - location is the location of the 'CO2 Data.csv' file.
+            - location is the location of the 'carbon_data.csv' file.
         """
 
         with open(location) as file:
@@ -206,7 +206,7 @@ class Data:
         return the dictionary instead of mutating, and then call the function in the __init__.
 
         Preconditions:
-            - location is the location of the 'Temperature_Deviation_Data.csv' file.
+            - location is the location of the 'temperature_deviance_data.csv' file.
         """
 
         with open(location) as file:
@@ -340,7 +340,7 @@ class Data:
 # TODO: DELETE THIS
 if __name__ == '__main__':
     my_data = Data()
-    my_data.get_wild_fires_canada('Canadian_Wildfire_Data.csv')
-    my_data.get_wild_fires_america('USA_Fire_Data.csv')
-    my_data.get_carbon_emission_data('CO2 Data.csv')
-    my_data.get_temperature_deviance_data('Temperature_Deviation_Data.csv')
+    my_data.get_wild_fires_canada('canada_wildfire_data.csv')
+    my_data.get_wild_fires_america('america_wildfire_data.csv')
+    my_data.get_carbon_emission_data('carbon_data.csv')
+    my_data.get_temperature_deviance_data('temperature_deviance_data.csv')
