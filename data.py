@@ -317,7 +317,3 @@ class Data:
             self.wild_fires[date].append(fire)
         else:
             self.wild_fires[date] = [fire]
-
-# TODO: DELETE THIS
-if __name__ == '__main__':
-    my_data = Data()
