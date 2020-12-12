@@ -74,7 +74,7 @@ def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire
     return (x_axis, y_axis)
 
 
-def get_data_points_temp(temp_dict: Dict[datetime.date, List[TemperatureDeviance]]) -> (List[int], List[int]):
+def get_data_points_temp(temp_dict: Dict[datetime.date, TemperatureDeviance]) -> (List[int], List[int]):
     """Return the x and y coordinates of the temperature data points
     """
     min_year = min([x.year for x in temp_dict])
