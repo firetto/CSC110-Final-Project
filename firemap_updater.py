@@ -23,6 +23,8 @@ class FireMapUpdater:
     # - _map: FireMap class instance that will be used to plot wildfire data onto.
     # - _date: datetime.date of the current day that is being examined in the data.
     # - _day_increment: How many days to increment for every update
+    # - _day_overlap: How long fires last in days (just so the dots don't instantly dissapear
+    #                 on the next day
     # - _update_delay: Number of milliseconds to wait before updating the fire map
     # - _time_delta_so_far: Number of milliseconds elapsed since the last update
     # - _animating: whether the timelapse is animating, and whether the map should be updated.
@@ -35,6 +37,7 @@ class FireMapUpdater:
     _map: FireMap
     _date: datetime.date
     _day_increment: int
+    _fire_duration: int
     _update_delay: float
     _time_delta_so_far: float
     _animating: bool
@@ -52,29 +55,38 @@ class FireMapUpdater:
         self._date = self._first_date
 
         self._day_increment = 1
-        self._update_delay = 10
+        self._fire_duration = 7
+        self._update_delay = 5
         self._time_delta_so_far = 0
 
         self._animating = True
 
-    def _draw_wildfire_dots(self) -> bool:
+    def _draw_wildfire_dots(self) -> None:
         """
-        Draw the corresponding date's wildfire dots onto the firemap,
-        return whether there are any dots to draw (that is, whether the number of wildfires
-        for this day is nonzero).
+        Draw the corresponding date's wildfire dots onto the firemap.
+        This will draw the dots for the data for the number of days
+        specified by self._fire_duration.
         """
-        if (self._date not in self._data.wild_fires) \
-                or len(self._data.wild_fires[self._date]) < 1:
-            return False
 
-        for fire in self._data.wild_fires[self._date]:
-            self._map.add_dot(fire.location)
+        starting_date = self._date - datetime.timedelta(days=self._fire_duration + 1)
 
-        return True
+        if starting_date < self._first_date:
+            starting_date = self._first_date
 
-    def _increment_date(self) -> None:
-        """Increment the date by self._day_increment."""
-        self._date += datetime.timedelta(days=self._day_increment)
+        for date in [starting_date + datetime.timedelta(days=n)
+                     for n in range(self._fire_duration)]:
+            if date in self._data.wild_fires:
+                for fire in self._data.wild_fires[date]:
+                    self._map.add_dot(fire.location)
+
+    def _increment_date(self, multiplier: float) -> None:
+        """Increment the date by self._day_increment, with an optional multiplier \
+        (if frames are skipped).
+
+        Preconditions:
+        - multiplier > 0
+        """
+        self._date += datetime.timedelta(days=self._day_increment * multiplier)
 
         # Check if the date is later than the last date of the timelapse. If so,
         # Stop the timelapse and set date to the last date.
@@ -106,10 +118,11 @@ class FireMapUpdater:
         self._time_delta_so_far += delta
 
         if self._time_delta_so_far >= self._update_delay:
-            self._time_delta_so_far = 0
 
             # Increment the date
-            self._increment_date()
+            self._increment_date(self._time_delta_so_far // self._update_delay)
+
+            self._time_delta_so_far = 0
 
             # Update the map here
             self._update_map()

@@ -7,7 +7,6 @@ CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
 
 import pygame
-import random
 from window import Window
 from firemap import FireMap
 from firemap_updater import FireMapUpdater
