@@ -21,41 +21,71 @@ from wildfires import WildFire
 def get_plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
              y2_axis: List[float], y1_label: str, y2_label: str, title: str) \
         -> pygame.Surface:
-    """Plot a labelled graph of two lines which share an x-axis
+    """
+    Plot a labelled graph of two lines which share an x-axis,
+    and return the surface that it is plotted on.
+
     Preconditions:
         - all({x > 0 for x in x1_axis}) and all({x > 0 for x in x2_axis})
         - len(title
     """
-    fig = pylab.figure(figsize=[800/85, 600/85],  # Inches
-                       dpi=85,  # 100 dots per inch, so the resulting buffer is 800x600 pixels
+    
+    # Create pylab figure
+    fig = pylab.figure(figsize=[800/85, 600/85],  # Inches. This is done so the final plot
+                                                  # ends up being 800x600px.
+                       dpi=85,  # Dots per inch
                        )
+
+    # Create plot
     ax = fig.gca()
+
+    # Create another plot on top of it, sharing the x-axis
     ax2 = ax.twinx()
+
+    # Set title
     ax.set_title(title)
 
+    # Set x axis label
     ax.set_xlabel('Year')
+
+    # Set y axis labels
     ax.set_ylabel(y1_label)
     ax2.set_ylabel(y2_label)
+
+    # Set colors for axes
     ax2.yaxis.label.set_color('r')
+
+    # Plot the data
     ax.plot(x1_axis, y1_axis, 'k')
     ax2.plot(x2_axis, y2_axis, 'r')
+
+    # Format tick labels.
     ax.ticklabel_format(useOffset=False, style='plain')
     ax2.ticklabel_format(useOffset=False, style='plain')
 
+    # Set axis 2 tick label color to be red.
+    ax2.tick_params(color='r')
+
+    # Draw the plot
     canvas = agg.FigureCanvasAgg(fig)
     canvas.draw()
+
+    # Render the plot
     renderer = canvas.get_renderer()
+
+    # Convert the plot into raw RGB data
     raw_data = renderer.tostring_rgb()
 
     size = canvas.get_width_height()
 
+    # Create a new pygame.Surface from the raw data
     surf = pygame.image.fromstring(raw_data, size, "RGB")
 
     return surf
 
 
 def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire]], country: str) \
-        -> Tuple[List[int], List[int]]:
+        -> Tuple[List[int], List[float]]:
     """Return the x and y coordinates of the carbon data points
     """
     min_year = min([x.year for x in wild_fire_dict])
