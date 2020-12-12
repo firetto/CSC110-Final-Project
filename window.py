@@ -105,9 +105,6 @@ class Window:
     def update(self) -> None:
         """Window loop body."""
 
-        # Draw UI
-        self._gui_manager.draw_ui(self._screen)
-
         # Update Pygame Display
         pygame.display.flip()
 
@@ -116,6 +113,11 @@ class Window:
 
         # Update GUI manager (time takes seconds and not ms, so divide by 1000)
         self._gui_manager.update(self._time_delta / 1000.0)
+
+    def draw_ui(self) -> None:
+        """Draw the buttons and sliders and so on."""
+        # Draw UI
+        self._gui_manager.draw_ui(self._screen)
 
     def _handle_events(self) -> None:
         """Handle PyGame window events"""

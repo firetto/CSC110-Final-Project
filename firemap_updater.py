@@ -136,11 +136,15 @@ class FireMapUpdater:
             return False
 
     def start_animation(self) -> None:
-        """Start the timelapse."""
+        """
+        Start the timelapse.
+        """
         self._animating = True
 
     def stop_animation(self) -> None:
-        """Stop the timelapse."""
+        """
+        Stop the timelapse.
+        """
         self._animating = False
 
     def toggle_animation(self) -> None:
@@ -161,7 +165,7 @@ class FireMapUpdater:
     def set_animation_speed(self, speed: float) -> None:
         """
         Update the time interval between updates based on the speed (multiplier).
-
+        If a plot is currently being displayed, do not do anything.
         Preconditions:
          - speed > 0
         """

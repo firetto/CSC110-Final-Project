@@ -12,6 +12,7 @@ from firemap import FireMap
 from firemap_updater import FireMapUpdater
 from data import Data
 from ui_handler import add_buttons, add_sliders, update_sliders, draw_ui_text
+from plot_manager import PlotManager
 
 if __name__ == "__main__":
 
@@ -29,7 +30,9 @@ if __name__ == "__main__":
 
     firemap_updater = FireMapUpdater(data=data, firemap=firemap)
 
-    add_buttons(window, firemap_updater)
+    plot_manager = PlotManager(window=window, data=data)
+
+    add_buttons(window, firemap_updater, plot_manager)
 
     add_sliders(window)
 
@@ -41,8 +44,9 @@ if __name__ == "__main__":
         # Update the window's clock
         window.update_clock()
 
-        # Update the delta of the FireMapUpdater
-        firemap_updater.update_delta(window.get_delta())
+        if not plot_manager.is_plot_displayed():
+            # Update the delta of the FireMapUpdater
+            firemap_updater.update_delta(window.get_delta())
 
         # Update the sliders
         update_sliders(window, firemap_updater)
@@ -52,11 +56,18 @@ if __name__ == "__main__":
         # Draw the background first!!!!
         window.draw_background()
 
-        # Draw the map stuff (image, dots)
-        firemap.draw(window)
+        # Draw the buttons etc.
+        window.draw_ui()
 
-        # Draw the UI text
-        draw_ui_text(window)
+        if plot_manager.is_plot_displayed():
+            plot_manager.draw_plot()
+
+        else:
+            # Draw the map stuff (image, dots)
+            firemap.draw(window)
+
+            # Draw the UI text
+            draw_ui_text(window)
 
         # Draw the rest of the stuff and update the window!
         window.update()
