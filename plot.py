@@ -29,7 +29,7 @@ def get_plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
         - all({x > 0 for x in x1_axis}) and all({x > 0 for x in x2_axis})
         - len(title
     """
-    
+
     # Create pylab figure
     fig = pylab.figure(figsize=[800/85, 600/85],  # Inches. This is done so the final plot
                                                   # ends up being 800x600px.
