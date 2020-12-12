@@ -64,7 +64,7 @@ def plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
 
 def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire]], country: str) -> (
         List[int], List[int]):
-    """Return the x and y coordinates of the wildfire data points
+    """Return the x and y coordinates of the carbon data points
     """
     min_year = min([x.year for x in wild_fire_dict])
     max_year = max([x.year for x in wild_fire_dict])
@@ -75,7 +75,7 @@ def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire
 
 
 def get_data_points_temp(temp_dict: Dict[datetime.date, TemperatureDeviance]) -> (List[int], List[int]):
-    """Return the x and y coordinates of the temperature data points
+    """Return the x and y coordinates of the carbon data points
     """
     min_year = min([x.year for x in temp_dict])
     x_axis = list(range(min_year, min_year + len(temp_dict)))
@@ -96,9 +96,28 @@ def get_data_points_carbon(carbon_dict: Dict[datetime.date, List[CarbonEmission]
 
 if __name__ == '__main__':
     data = Data()
-    # Canadian Wildfires with Canadian Carbon plot
-    wild_fire_data_points = get_data_points_wild_fires(data.wild_fires, 'Canada')
-    carbon_data_points = get_data_points_carbon(data.carbon_emissions, 0)
-    plot(wild_fire_data_points[0], wild_fire_data_points[1],
-         carbon_data_points[0], carbon_data_points[1], 'Number of Wildfires', 'Carbon Emissions (kT)')
+    canadian_wild_fire_data_points = get_data_points_wild_fires(data.wild_fires, 'Canada')
+    canadian_carbon_data_points = get_data_points_carbon(data.carbon_emissions, 0)
+    american_wild_fire_data_points = get_data_points_wild_fires(data.wild_fires, 'America')
+    american_carbon_data_points = get_data_points_carbon(data.carbon_emissions, 1)
+    temp_data_points = get_data_points_temp(data.temperature_deviation)
 
+    # Canadian Wildfires vs. Canadian Carbon plot
+    plot(canadian_wild_fire_data_points[0], canadian_wild_fire_data_points[1],
+         canadian_carbon_data_points[0], canadian_carbon_data_points[1],
+         'Number of Wildfires', 'Carbon Emissions (kT)')
+
+    # American Wildfires vs. American Carbon plot
+    plot(american_wild_fire_data_points[0], american_wild_fire_data_points[1],
+         american_carbon_data_points[0], american_carbon_data_points[1],
+         'Number of Wildfires', 'Carbon Emissions (kT)')
+
+    # Canadian Wildfires vs. Temp Deviance
+    plot(canadian_wild_fire_data_points[0], canadian_wild_fire_data_points[1],
+         temp_data_points[0], temp_data_points[1],
+         'Number of Wildfires', 'Temperature Deviance (°C)')
+
+    # American Wildfires vs. Temp Deviance
+    plot(american_wild_fire_data_points[0], american_wild_fire_data_points[1],
+         temp_data_points[0], temp_data_points[1],
+         'Number of Wildfires', 'Temperature Deviance (°C)')
