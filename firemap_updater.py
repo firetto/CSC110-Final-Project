@@ -84,9 +84,6 @@ class FireMapUpdater:
 
     def _update_map(self) -> None:
         """Update the map by incrementing the date and redrawing the dots."""
-
-        self._increment_date()
-
         self._map.set_map_date_text(str(self._date))
 
         self._map.clear_dots()
@@ -111,6 +108,9 @@ class FireMapUpdater:
         if self._time_delta_so_far >= self._update_delay:
             self._time_delta_so_far = 0
 
+            # Increment the date
+            self._increment_date()
+
             # Update the map here
             self._update_map()
 
@@ -129,3 +129,13 @@ class FireMapUpdater:
     def toggle_animation(self) -> None:
         """Toggle the state of self._animating."""
         self._animating = not self._animating
+
+    def restart_animation(self) -> None:
+        """
+        Set the date back to the first date in the entry and draw the dots for that date.
+        Additionally, stop the animation.
+        """
+
+        self._date = self._first_date
+        self.stop_animation()
+        self._update_map()

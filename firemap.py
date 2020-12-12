@@ -36,7 +36,7 @@ class FireMap:
     _map_date_text: str
 
     # CONSTANTS
-    _MAP_POSITION: Tuple[int, int] = (50, 0)
+    _MAP_POSITION: Tuple[int, int] = (68, 10)
 
     # (top left, top right) latitude and longitude
     _MAP_COORDINATE_BOUNDS: Tuple[Tuple[int, int], Tuple[int, int]] = ((90, -180), (15, -45))

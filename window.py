@@ -57,7 +57,7 @@ class Window:
         # Initialize basic window attributes
         self._running = True
         self._width = 900
-        self._height = 600
+        self._height = 700
         self._title = "Wildfire Thing!"
         self._buttons = []
 
