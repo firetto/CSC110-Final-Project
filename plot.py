@@ -4,8 +4,7 @@ Contains the method used to plot the data and the methods to collect the data po
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
 import datetime
-from typing import Dict, List
-
+from typing import Dict, List, Tuple
 import matplotlib
 
 # THIS HAS TO BE HERE FOR SOME REASON!!!!!!!!!!! BLAME MATPLOTLIB!!!!
@@ -56,7 +55,7 @@ def get_plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
 
 
 def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire]], country: str) \
-        -> (List[int], List[int]):
+        -> Tuple[List[int], List[int]]:
     """Return the x and y coordinates of the carbon data points
     """
     min_year = min([x.year for x in wild_fire_dict])
@@ -64,21 +63,23 @@ def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire
     x_axis = list(range(min_year, max_year + 1))
     y_axis = [sum([len([fire for fire in wild_fire_dict[x] if fire.country == country])
                    for x in wild_fire_dict if x.year == y]) for y in x_axis]
-    return (x_axis, y_axis)
+    processed_data = remove_zero_data_points(x_axis, y_axis)
+    return (processed_data[0], processed_data[1])
 
 
 def get_data_points_temp(temp_dict: Dict[datetime.date, TemperatureDeviance]) \
-        -> (List[int], List[int]):
-    """Return the x and y coordinates of the carbon data points
+        -> Tuple[List[int], List[float]]:
+    """Return the x and y coordinates of the temperature data points
     """
     min_year = min([x.year for x in temp_dict])
     x_axis = list(range(min_year, min_year + len(temp_dict)))
     y_axis = [temp_dict[datetime.date(y, 1, 1)].temperature_deviance for y in x_axis]
-    return (x_axis, y_axis)
+    processed_data = remove_zero_data_points(x_axis, y_axis)
+    return (processed_data[0], processed_data[1])
 
 
 def get_data_points_carbon(carbon_dict: Dict[datetime.date, List[CarbonEmission]], i: int) \
-        -> (List[int], List[int]):
+        -> Tuple[List[int], List[float]]:
     """Return the x and y coordinates of the carbon data points. i=0 indicates Canada, i=1 indicates America
     Preconditions:
         - i == 0 or i == 1
@@ -86,4 +87,21 @@ def get_data_points_carbon(carbon_dict: Dict[datetime.date, List[CarbonEmission]
     min_year = min([x.year for x in carbon_dict])
     x_axis = list(range(min_year, min_year + len(carbon_dict)))
     y_axis = [carbon_dict[datetime.date(y, 1, 1)][i].emissions for y in x_axis]
-    return (x_axis, y_axis)
+    processed_data = remove_zero_data_points(x_axis, y_axis)
+    return (processed_data[0], processed_data[1])
+
+
+def remove_zero_data_points(x_data: List[int], y_data: List[float]) -> Tuple[List[int], List[float]]:
+    """Remove the zero y values and the associated x values from the dataset.
+    Preconditions:
+        - len(x_data) == len(y_data)
+    """
+    i = 0
+    while 0 in y_data:
+        if y_data[i] == 0:
+            y_data.pop(i)
+            x_data.pop(i)
+            i -= 1
+        i += 1
+
+    return (x_data, y_data)
