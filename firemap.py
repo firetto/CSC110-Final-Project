@@ -28,6 +28,7 @@ class FireMap:
     # - _MAP_COORDINATE_BOUNDS: Latitude and longitude of the top left and bottom right
     #                           corners of the map image
     # - _MAP_DATE_LABEL_POSITION: The position of where the date label is to be drawn on the map
+    # - _MAP_DOT_RADIUS: The radius of the dots that indicate a fire.
 
     # TODO: Think about adding an "intensity" to the dots to change the size of the dots drawn
     _dot_positions: List[Tuple[float, float]]
@@ -41,6 +42,7 @@ class FireMap:
     # (top left, top right) latitude and longitude
     _MAP_COORDINATE_BOUNDS: Tuple[Tuple[int, int], Tuple[int, int]] = ((90, -180), (15, -45))
     _MAP_DATE_LABEL_POSITION: Tuple[int, int] = (0, 0)
+    _MAP_DOT_RADIUS: int = 8
 
     def __init__(self) -> None:
         """
@@ -73,11 +75,11 @@ class FireMap:
 
         # Draw each dot on the map surface
         for position in self._dot_positions:
-            pygame.draw.circle(self._map_surface, (255, 0, 0), position, 10)
+            pygame.draw.circle(self._map_surface, (255, 50, 50), position, self._MAP_DOT_RADIUS)
 
         # Draw the date label onto the map
         self._map_surface.blit(window.render_text(text=self._map_date_text, antialias=True,
-                                                  color=pygame.color.Color([255, 255, 255]),
+                                                  color=pygame.color.Color(255, 255, 255),
                                                   background=pygame.color.Color(0, 0, 0, 50)),
                                self._MAP_DATE_LABEL_POSITION)
 

@@ -11,6 +11,7 @@ from window import Window
 from firemap import FireMap
 from firemap_updater import FireMapUpdater
 from data import Data
+from ui_handler import add_buttons, add_sliders, update_sliders, draw_ui_text
 
 if __name__ == "__main__":
 
@@ -28,19 +29,9 @@ if __name__ == "__main__":
 
     firemap_updater = FireMapUpdater(data=data, firemap=firemap)
 
-    # Temporary buttons
-    # window.add_button(pygame.Rect((350, 480), (150, 40)),
-    #                   "Add random dot", lambda: firemap.add_dot((random.randint(15, 90),
-    #                                                              random.randint(-180, -45))))
-    # window.add_button(pygame.Rect((550, 480), (150, 40)),
-    #                   "Clear dots", lambda: firemap.clear_dots())
+    add_buttons(window, firemap_updater)
 
-    window.add_button(pygame.Rect((68+100, 440), (150, 50)),
-                      "Play", lambda: firemap_updater.start_animation())
-    window.add_button(pygame.Rect((375, 440), (150, 50)),
-                      "Pause", lambda: firemap_updater.stop_animation())
-    window.add_button(pygame.Rect((683-100, 440), (150, 50)),
-                      "Restart", lambda: firemap_updater.restart_animation())
+    add_sliders(window)
 
     # Window loop
     while window.is_running():
@@ -53,6 +44,9 @@ if __name__ == "__main__":
         # Update the delta of the FireMapUpdater
         firemap_updater.update_delta(window.get_delta())
 
+        # Update the sliders
+        update_sliders(window, firemap_updater)
+
         """ DRAW STUFF """
 
         # Draw the background first!!!!
@@ -60,6 +54,9 @@ if __name__ == "__main__":
 
         # Draw the map stuff (image, dots)
         firemap.draw(window)
+
+        # Draw the UI text
+        draw_ui_text(window)
 
         # Draw the rest of the stuff and update the window!
         window.update()

@@ -30,6 +30,8 @@ class FireMapUpdater:
     # - _animating: whether the timelapse is animating, and whether the map should be updated.
     # - _last_date: The last date of the timelapse
     # - _first_date: The last date of the timelapse
+    # - _DEFAULT_UPDATE_DELAY: The default number of milliseconds to wait before
+    #                          updating the fire map.
     # Private Representation Invariants:
     # - self._day_increment > 0
     # - self._update_delay > 0
@@ -45,6 +47,8 @@ class FireMapUpdater:
     _last_date: datetime.date
     _first_date: datetime.date
 
+    _DEFAULT_UPDATE_DELAY: float = 8
+
     def __init__(self, data: Data, firemap: FireMap) -> None:
         """Initialize instances"""
         self._data = data
@@ -56,7 +60,7 @@ class FireMapUpdater:
 
         self._day_increment = 1
         self._fire_duration = 7
-        self._update_delay = 5
+        self._update_delay = self._DEFAULT_UPDATE_DELAY
         self._time_delta_so_far = 0
 
         self._animating = True
@@ -141,6 +145,7 @@ class FireMapUpdater:
 
     def toggle_animation(self) -> None:
         """Toggle the state of self._animating."""
+
         self._animating = not self._animating
 
     def restart_animation(self) -> None:
@@ -152,3 +157,13 @@ class FireMapUpdater:
         self._date = self._first_date
         self.stop_animation()
         self._update_map()
+
+    def set_animation_speed(self, speed: float) -> None:
+        """
+        Update the time interval between updates based on the speed (multiplier).
+
+        Preconditions:
+         - speed > 0
+        """
+
+        self._update_delay = self._DEFAULT_UPDATE_DELAY / speed
