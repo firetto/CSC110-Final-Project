@@ -24,7 +24,7 @@ def plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
         all({x > 0 for x in x1_axis}) and all({x > 0 for x in x2_axis})
     """
     fig = pylab.figure(figsize=[8, 8],  # Inches
-                       dpi=100,  # 100 dots per inch, so the resulting buffer is 400x400 pixels
+                       dpi=75,  # 100 dots per inch, so the resulting buffer is 400x400 pixels
                        )
     ax = fig.gca()
 
@@ -35,6 +35,8 @@ def plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
     ax2.yaxis.label.set_color('r')
     ax.plot(x1_axis, y1_axis, 'k')
     ax2.plot(x2_axis, y2_axis, 'r')
+    ax.ticklabel_format(useOffset=False, style='plain')
+    ax2.ticklabel_format(useOffset=False, style='plain')
     canvas = agg.FigureCanvasAgg(fig)
     canvas.draw()
     renderer = canvas.get_renderer()
@@ -42,7 +44,7 @@ def plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
     pylab.close(fig)
     pygame.init()
 
-    window = pygame.display.set_mode((800, 800), DOUBLEBUF)
+    window = pygame.display.set_mode((600, 600), DOUBLEBUF)
     screen = pygame.display.get_surface()
 
     size = canvas.get_width_height()
