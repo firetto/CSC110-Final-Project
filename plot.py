@@ -93,6 +93,7 @@ def get_data_points_carbon(carbon_dict: Dict[datetime.date, List[CarbonEmission]
     y_axis = [carbon_dict[datetime.date(y, 1, 1)][i].emissions for y in x_axis]
     return (x_axis, y_axis)
 
+
 if __name__ == '__main__':
     data = Data()
     # Canadian Wildfires with Canadian Carbon plot
