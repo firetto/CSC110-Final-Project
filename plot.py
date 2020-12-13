@@ -31,8 +31,8 @@ def get_plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
     """
 
     # Create pylab figure
-    fig = pylab.figure(figsize=[800/85, 600/85],  # Inches. This is done so the final plot
-                                                  # ends up being 800x600px.
+    fig = pylab.figure(figsize=[800 / 85, 600 / 85],  # Inches. This is done so the final plot
+                                                      # ends up being 800x600px.
                        dpi=85,  # Dots per inch
                        )
 
@@ -135,3 +135,26 @@ def remove_zero_data_points(x_data: List[int], y_data: List[float]) -> Tuple[Lis
         i += 1
 
     return (x_data, y_data)
+
+
+if __name__ == '__main__':
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['datetime', 'typing', 'matplotlib', 'pylab', 'pygame',
+                          'carbon_emissions', 'temperature_deviation',
+                          'wildfires', 'matplotlib.backends.backend_agg', 'python_ta.contracts'],
+        # the names (strs) of imported modules
+        'allowed-io': [],
+        # the names (strs) of functions that call print/open/input
+        'max-line-length': 100,
+        'disable': ['R1705', 'C0200']
+    })
+
+    import python_ta.contracts
+
+    python_ta.contracts.check_all_contracts()
+
+    import doctest
+
+    doctest.testmod()

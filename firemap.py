@@ -145,3 +145,24 @@ class FireMap:
                  1 - (latitude - bot_right[0]) / (top_left[0] - bot_right[0]))
 
         return (int(ratio[0] * image_size[0]), int(ratio[1] * image_size[1]))
+
+
+if __name__ == '__main__':
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['pygame', 'os', 'typing', 'window', 'python_ta.contracts'],
+        # the names (strs) of imported modules
+        'allowed-io': [],
+        # the names (strs) of functions that call print/open/input
+        'max-line-length': 100,
+        'disable': ['R1705', 'C0200']
+    })
+
+    import python_ta.contracts
+
+    python_ta.contracts.check_all_contracts()
+
+    import doctest
+
+    doctest.testmod()

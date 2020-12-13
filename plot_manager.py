@@ -6,10 +6,10 @@ Contains the PlotManager class, which handles drawing plots onto the window.
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
 from typing import List, Tuple
+import pygame
 from window import Window
 from data import Data
 import plot
-import pygame
 
 
 class PlotManager:
@@ -136,3 +136,24 @@ class PlotManager:
             return
 
         self._window.draw_to_screen(self._plot_surface, self._PLOT_POSITION)
+
+
+if __name__ == '__main__':
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['window', 'typing', 'data', 'plot', 'pygame', 'python_ta.contracts'],
+        # the names (strs) of imported modules
+        'allowed-io': [],
+        # the names (strs) of functions that call print/open/input
+        'max-line-length': 100,
+        'disable': ['R1705', 'C0200']
+    })
+
+    import python_ta.contracts
+
+    python_ta.contracts.check_all_contracts()
+
+    import doctest
+
+    doctest.testmod()
