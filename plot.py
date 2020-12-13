@@ -110,7 +110,9 @@ def get_data_points_temp(temp_dict: Dict[datetime.date, TemperatureDeviance]) \
 
 def get_data_points_carbon(carbon_dict: Dict[datetime.date, List[CarbonEmission]], i: int) \
         -> Tuple[List[int], List[float]]:
-    """Return the x and y coordinates of the carbon data points. i=0 indicates Canada, i=1 indicates America
+    """Return the x and y coordinates of the carbon data points. i=0 indicates Canada, i=1 indicates
+     America
+
     Preconditions:
         - i == 0 or i == 1
     """
@@ -121,7 +123,8 @@ def get_data_points_carbon(carbon_dict: Dict[datetime.date, List[CarbonEmission]
     return (processed_data[0], processed_data[1])
 
 
-def remove_zero_data_points(x_data: List[int], y_data: List[float]) -> Tuple[List[int], List[float]]:
+def remove_zero_data_points(x_data: List[int], y_data: List[float]) -> Tuple[List[int],
+                                                                             List[float]]:
     """Remove the zero y values and the associated x values from the dataset.
     Preconditions:
         - len(x_data) == len(y_data)
