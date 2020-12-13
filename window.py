@@ -21,8 +21,9 @@ class Window:
 
 
     Sample Usage:
+    >>> pygame.init()
+    (6, 0)
     >>> window = Window() # wow you did it!!!
-
     """
 
     # Private Instance Attributes:
