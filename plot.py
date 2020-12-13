@@ -18,9 +18,8 @@ from temperature_deviation import TemperatureDeviance
 from wildfires import WildFire
 
 
-def get_plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
-             y2_axis: List[float], y1_label: str, y2_label: str, title: str) \
-        -> pygame.Surface:
+def get_plot(line1: List[list], line2: List[list],
+             y1_label: str, y2_label: str, title: str) -> pygame.Surface:
     """
     Plot a labelled graph of two lines which share an x-axis,
     and return the surface that it is plotted on.
@@ -56,8 +55,8 @@ def get_plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
     ax2.yaxis.label.set_color('r')
 
     # Plot the data
-    ax.plot(x1_axis, y1_axis, 'k')
-    ax2.plot(x2_axis, y2_axis, 'r')
+    ax.plot(line1[0], line1[1], 'k')
+    ax2.plot(line2[0], line2[1], 'r')
 
     # Format tick labels.
     ax.ticklabel_format(useOffset=False, style='plain')
@@ -85,7 +84,7 @@ def get_plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
 
 
 def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire]], country: str) \
-        -> Tuple[List[int], List[float]]:
+        -> List[list]:
     """Return the x and y coordinates of the wildfire data points
     """
     min_year = min([x.year for x in wild_fire_dict])
@@ -94,22 +93,22 @@ def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire
     y_axis = [sum([len([fire for fire in wild_fire_dict[x] if fire.country == country])
                    for x in wild_fire_dict if x.year == y]) for y in x_axis]
     processed_data = remove_zero_data_points(x_axis, y_axis)
-    return (processed_data[0], processed_data[1])
+    return [processed_data[0], processed_data[1]]
 
 
 def get_data_points_temp(temp_dict: Dict[datetime.date, TemperatureDeviance]) \
-        -> Tuple[List[int], List[float]]:
+        -> List[list]:
     """Return the x and y coordinates of the temperature data points
     """
     min_year = min([x.year for x in temp_dict])
     x_axis = list(range(min_year, min_year + len(temp_dict)))
     y_axis = [temp_dict[datetime.date(y, 1, 1)].temperature_deviance for y in x_axis]
     processed_data = remove_zero_data_points(x_axis, y_axis)
-    return (processed_data[0], processed_data[1])
+    return [processed_data[0], processed_data[1]]
 
 
 def get_data_points_carbon(carbon_dict: Dict[datetime.date, List[CarbonEmission]], i: int) \
-        -> Tuple[List[int], List[float]]:
+        -> List[list]:
     """Return the x and y coordinates of the carbon data points. i=0 indicates Canada, i=1 indicates
      America
 
@@ -120,7 +119,7 @@ def get_data_points_carbon(carbon_dict: Dict[datetime.date, List[CarbonEmission]
     x_axis = list(range(min_year, min_year + len(carbon_dict)))
     y_axis = [carbon_dict[datetime.date(y, 1, 1)][i].emissions for y in x_axis]
     processed_data = remove_zero_data_points(x_axis, y_axis)
-    return (processed_data[0], processed_data[1])
+    return [processed_data[0], processed_data[1]]
 
 
 def remove_zero_data_points(x_data: List[int], y_data: List[float]) -> Tuple[List[int],
