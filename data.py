@@ -136,18 +136,18 @@ class Data:
 
                 for year in range(1960, 2017):  # 2017 is not included
                     # Month and Day are placeholder values.
-                    date = datetime.date(year, 1, 1)
 
                     carbon_emissions = float(entry[current_index])
-                    carbon_data = CarbonEmission(country, carbon_emissions, date)
+                    carbon_data = CarbonEmission(country, carbon_emissions,
+                                                 datetime.date(year, 1, 1))
 
                     current_index += 1
 
-                    if date in self.carbon_emissions:
-                        self.carbon_emissions[date].append(carbon_data)
+                    if datetime.date(year, 1, 1) in self.carbon_emissions:
+                        self.carbon_emissions[datetime.date(year, 1, 1)].append(carbon_data)
 
                     else:
-                        self.carbon_emissions[date] = [carbon_data]
+                        self.carbon_emissions[datetime.date(year, 1, 1)] = [carbon_data]
 
                 current_index = starting_index
 
