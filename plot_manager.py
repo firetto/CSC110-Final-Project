@@ -46,11 +46,11 @@ class PlotManager:
     _data: Data
     _plot_surface: pygame.Surface
     _plot_displayed: str
-    _data_points_canada_wildfire: Tuple[List[int], List[int]]
-    _data_points_america_wildfire: Tuple[List[int], List[int]]
-    _data_points_canada_carbon: Tuple[List[int], List[int]]
-    _data_points_america_carbon: Tuple[List[int], List[int]]
-    _data_points_temp_deviance: Tuple[List[int], List[int]]
+    _data_points_canada_wildfire: Tuple[List[int], List[float]]
+    _data_points_america_wildfire: Tuple[List[int], List[float]]
+    _data_points_canada_carbon: Tuple[List[int], List[float]]
+    _data_points_america_carbon: Tuple[List[int], List[float]]
+    _data_points_temp_deviance: Tuple[List[int], List[float]]
     _PLOT_POSITION: Tuple[int, int] = (50, 10)
 
     def __init__(self, window: Window, data: Data) -> None:
