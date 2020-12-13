@@ -166,7 +166,8 @@ class Data:
             for _ in range(4):
                 next(reader)
 
-            headers = next(reader)
+            # Remove the headers
+            _ = next(reader)
 
             for entry in reader:
                 # Month and Day are placeholder values.
