@@ -4,11 +4,6 @@ Contains the WildFire dataclass. Used to store information about wildfires such 
 of origin, location, and date of occurrence.
 
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
-
-#TODO: Delete this
-----------------------TO BE DELETED -----------------------------------------------
-Implementation Note: If needed we can add more information about the fires.
--------------------------TO BE DELETED ------------------------------
 """
 
 import datetime

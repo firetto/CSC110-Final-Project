@@ -3,31 +3,14 @@ data.py:
 Contains the Data class used to get and store various dataclasses
 
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
-
-#TODO: Delete this
------------------TO BE DELETED -------------------------------------------------------
-Implementation notes:
-
-- If we need the wild_fire data stored differently, it shouldn't be too
-hard to fix
-
-- For the final version, we probably want the __init__ method to populate the data.
-
-- Currently uses two different methods for getting the fire data depending if its the Canada
-or America set. Can probably find a way to combine both methods if needed.
-
-- Can make methods private
-
------------------TO BE DELETED -------------------------------------------------------
-
 """
 
 from typing import Dict, List
 import datetime
+import csv
 from wildfires import WildFire
 from carbon_emissions import CarbonEmission
 from temperature_deviation import TemperatureDeviance
-import csv
 
 
 class Data:
@@ -330,3 +313,5 @@ class Data:
     def find_last_date(self) -> datetime.date:
         """Return the last date entry that appears in self.wild_fires."""
         return max(self.wild_fires)
+
+
