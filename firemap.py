@@ -5,9 +5,9 @@ Contains functions for drawing the map onto the screen, along with drawing dots 
 
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
-import pygame
-import os
 from typing import List, Tuple
+import os
+import pygame
 from window import Window
 
 
@@ -30,7 +30,6 @@ class FireMap:
     # - _MAP_DATE_LABEL_POSITION: The position of where the date label is to be drawn on the map
     # - _MAP_DOT_RADIUS: The radius of the dots that indicate a fire.
 
-    # TODO: Think about adding an "intensity" to the dots to change the size of the dots drawn
     _dot_positions: List[Tuple[float, float]]
     _map_image: pygame.Surface
     _map_surface: pygame.Surface
