@@ -46,11 +46,11 @@ class PlotManager:
     _data: Data
     _plot_surface: pygame.Surface
     _plot_displayed: str
-    _data_points_canada_wildfire: Tuple[List[int], List[float]]
-    _data_points_america_wildfire: Tuple[List[int], List[float]]
-    _data_points_canada_carbon: Tuple[List[int], List[float]]
-    _data_points_america_carbon: Tuple[List[int], List[float]]
-    _data_points_temp_deviance: Tuple[List[int], List[float]]
+    _data_points_canada_wildfire: List[list]
+    _data_points_america_wildfire: List[list]
+    _data_points_canada_carbon: List[list]
+    _data_points_america_carbon: List[list]
+    _data_points_temp_deviance: List[list]
     _PLOT_POSITION: Tuple[int, int] = (50, 10)
 
     def __init__(self, window: Window, data: Data) -> None:
@@ -90,34 +90,26 @@ class PlotManager:
 
         if new_plot == "canada_vs_carbon":
             self._plot_surface = \
-                plot.get_plot(self._data_points_canada_wildfire[0],
-                              self._data_points_canada_wildfire[1],
-                              self._data_points_canada_carbon[0],
-                              self._data_points_canada_carbon[1],
+                plot.get_plot(self._data_points_canada_wildfire,
+                              self._data_points_canada_carbon,
                               'Number of Wildfires', 'Carbon Dioxide Emissions (kT)',
                               "Canadian Wildfires vs Canadian CO2 Emissions")
         elif new_plot == "america_vs_carbon":
             self._plot_surface = \
-                plot.get_plot(self._data_points_america_wildfire[0],
-                              self._data_points_america_wildfire[1],
-                              self._data_points_america_carbon[0],
-                              self._data_points_america_carbon[1],
+                plot.get_plot(self._data_points_america_wildfire,
+                              self._data_points_america_carbon,
                               'Number of Wildfires', 'Carbon Dioxide Emissions (kT)',
                               "USA Wildfires vs American CO2 Emissions")
         elif new_plot == "canada_vs_temp":
             self._plot_surface = \
-                plot.get_plot(self._data_points_canada_wildfire[0],
-                              self._data_points_canada_wildfire[1],
-                              self._data_points_temp_deviance[0],
-                              self._data_points_temp_deviance[1],
+                plot.get_plot(self._data_points_canada_wildfire,
+                              self._data_points_temp_deviance,
                               'Number of Wildfires', 'Temperature Deviance (°C)',
                               "Canadian Wildfires vs North American Temperature Deviance")
         elif new_plot == "america_vs_temp":
             self._plot_surface = \
-                plot.get_plot(self._data_points_america_wildfire[0],
-                              self._data_points_america_wildfire[1],
-                              self._data_points_temp_deviance[0],
-                              self._data_points_temp_deviance[1],
+                plot.get_plot(self._data_points_america_wildfire,
+                              self._data_points_temp_deviance,
                               'Number of Wildfires', 'Temperature Deviance (°C)',
                               "USA Wildfires vs North American Temperature Deviance")
 
