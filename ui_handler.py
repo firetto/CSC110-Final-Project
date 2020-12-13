@@ -5,9 +5,9 @@ Contains functions for adding buttons and sliders to window, as well as managing
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
 
+import pygame
 from window import Window
 from firemap_updater import FireMapUpdater
-import pygame
 from plot_manager import PlotManager
 
 
@@ -93,3 +93,25 @@ def restart_map_animation(updater: FireMapUpdater, plot_manager: PlotManager) ->
     """
     if not plot_manager.is_plot_displayed():
         updater.restart_animation()
+
+
+if __name__ == '__main__':
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['window', 'firemap_updater', 'pygame', 'plot_manager',
+                          'python_ta.contracts'],
+        # the names (strs) of imported modules
+        'allowed-io': [],
+        # the names (strs) of functions that call print/open/input
+        'max-line-length': 100,
+        'disable': ['R1705', 'C0200']
+    })
+
+    import python_ta.contracts
+
+    python_ta.contracts.check_all_contracts()
+
+    import doctest
+
+    doctest.testmod()
