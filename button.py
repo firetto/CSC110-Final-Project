@@ -12,7 +12,8 @@ import pygame_gui
 class Button:
     """
     pygame_gui.elements.UIButton wrapper class, containing initialization of button
-    as well as 'lambda' instances to easily call the corresponding button function when it is pressed,
+    as well as 'lambda' instances to easily call the corresponding button function when it is
+    pressed.
     """
 
     # Private Instance Attributes:
@@ -37,3 +38,24 @@ class Button:
     def press(self) -> None:
         """Call _function()."""
         self._function()
+
+
+if __name__ == '__main__':
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['pygame', 'pygame_gui', 'python_ta.contracts'],
+        # the names (strs) of imported modules
+        'allowed-io': [],
+        # the names (strs) of functions that call print/open/input
+        'max-line-length': 100,
+        'disable': ['R1705', 'C0200']
+    })
+
+    import python_ta.contracts
+
+    python_ta.contracts.check_all_contracts()
+
+    import doctest
+
+    doctest.testmod()
