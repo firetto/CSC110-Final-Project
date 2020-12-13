@@ -5,10 +5,10 @@ Contains PyGame window wrapper class.
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
 
+from typing import Dict, List, Tuple
 import pygame
 import pygame_gui
 from pygame_gui.elements.ui_horizontal_slider import UIHorizontalSlider
-from typing import Dict, List, Tuple
 from button import Button
 
 
