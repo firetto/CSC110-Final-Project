@@ -65,9 +65,7 @@ class Data:
             month_index = headers.index('MONTH')
             day_index = headers.index('DAY')
 
-            data = [row for row in reader]
-
-            for row in data:
+            for row in reader:
 
                 if int(row[year_index]) != 0 and int(row[month_index]) != 0 \
                         and int(row[day_index]) != 0:
@@ -96,9 +94,7 @@ class Data:
             longitude_index = headers.index('LONGITUDE')
             date_index = headers.index('DISCOVERY_DATE')
 
-            data = [row for row in reader]
-
-            for row in data:
+            for row in reader:
                 location = (float(row[latitude_index]), float(row[longitude_index]))
 
                 # Stored in the data as "year-month-day"
@@ -172,9 +168,7 @@ class Data:
 
             headers = next(reader)
 
-            data = [row for row in reader]
-
-            for entry in data:
+            for entry in reader:
                 # Month and Day are placeholder values.
                 date = datetime.date(int(entry[0]), 1, 1)
                 value = float(entry[1])
@@ -315,3 +309,29 @@ class Data:
         return max(self.wild_fires)
 
 
+if __name__ == '__main__':
+
+    # NOTE THE PYTA CALLS IN THE CONSOLE WILL TAKE A LONG TIME TO FINISH. IT IS CHECKING THE
+    # CONTRACTS OF EVERY ENTRY FROM THE SAMPLE CALL ON LINE 29.
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['datetime', 'csv', 'python_ta.contracts', 'wildfires',
+                          'carbon_emissions', 'temperature_deviation'],
+        # the names (strs) of imported modules
+        'allowed-io': ['get_wild_fires_canada', 'get_wild_fires_america',
+                       'get_carbon_emission_data', 'get_temperature_deviance_data',
+                       'write_canadian_wild_fire_data', 'write_american_wild_fire_data',
+                       'write_carbon_emission_data', 'write_temperature_deviance_data'],
+        # the names (strs) of functions that call print/open/input
+        'max-line-length': 100,
+        'disable': ['R1705', 'C0200']
+    })
+
+    import python_ta.contracts
+
+    python_ta.contracts.check_all_contracts()
+
+    import doctest
+
+    doctest.testmod()

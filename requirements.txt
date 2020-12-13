@@ -3,3 +3,7 @@ pygame
 pygame-gui
 matplotlib
 pylab
+
+# Testing and Code Checking
+doctest
+python-ta
