@@ -103,7 +103,7 @@ class PlotManager:
                               self._data_points_america_carbon[0],
                               self._data_points_america_carbon[1],
                               'Number of Wildfires', 'Carbon Dioxide Emissions (kT)',
-                              "USA Wildfires vs Canadian CO2 Emissions")
+                              "USA Wildfires vs American CO2 Emissions")
         elif new_plot == "canada_vs_temp":
             self._plot_surface = \
                 plot.get_plot(self._data_points_canada_wildfire[0],
