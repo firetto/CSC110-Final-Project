@@ -86,7 +86,7 @@ def get_plot(x1_axis: List[int], y1_axis: List[float], x2_axis: List[int],
 
 def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire]], country: str) \
         -> Tuple[List[int], List[float]]:
-    """Return the x and y coordinates of the carbon data points
+    """Return the x and y coordinates of the wildfire data points
     """
     min_year = min([x.year for x in wild_fire_dict])
     max_year = max([x.year for x in wild_fire_dict])
