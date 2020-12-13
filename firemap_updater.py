@@ -7,10 +7,9 @@ which accesses the wildfire data, plotting it on the FireMap, and animating it.
 CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 """
 
+import datetime
 from data import Data
 from firemap import FireMap
-from wildfires import WildFire
-import datetime
 
 
 class FireMapUpdater:
