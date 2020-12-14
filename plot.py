@@ -6,16 +6,15 @@ CSC110 Final Project by Anatoly Zavyalov, Austin Blackman, Elliot Schrider.
 import datetime
 from typing import Dict, List, Tuple
 import matplotlib
-
-# THIS HAS TO BE HERE FOR SOME REASON!!!!!!!!!!! BLAME MATPLOTLIB!!!!
-matplotlib.use("Agg")
-
 import matplotlib.backends.backend_agg as agg
-import pylab
 import pygame
 from carbon_emissions import CarbonEmission
 from temperature_deviation import TemperatureDeviance
 from wildfires import WildFire
+
+# import pylab must be placed below this line or there is an error
+matplotlib.use("Agg")
+import pylab
 
 
 def get_plot(line1: List[list], line2: List[list],
@@ -25,13 +24,14 @@ def get_plot(line1: List[list], line2: List[list],
     and return the surface that it is plotted on.
 
     Preconditions:
-        - all({x > 0 for x in x1_axis}) and all({x > 0 for x in x2_axis})
-        - len(title
+        - len(line1) == 2 and len(line2) == 2
+        - len(line1[0]) == len(line1[1])
+        - len(line2[0]) == len(line2[1])
     """
 
     # Create pylab figure
     fig = pylab.figure(figsize=[800 / 85, 600 / 85],  # Inches. This is done so the final plot
-                                                      # ends up being 800x600px.
+                       # ends up being 800x600px.
                        dpi=85,  # Dots per inch
                        )
 
@@ -51,14 +51,14 @@ def get_plot(line1: List[list], line2: List[list],
     ax.set_ylabel(y1_label)
     ax2.set_ylabel(y2_label)
 
-    # Set colors for axes
+    # Set colour for 2nd y axis label
     ax2.yaxis.label.set_color('r')
 
     # Plot the data
     ax.plot(line1[0], line1[1], 'k')
     ax2.plot(line2[0], line2[1], 'r')
 
-    # Format tick labels.
+    # Format tick labels
     ax.ticklabel_format(useOffset=False, style='plain')
     ax2.ticklabel_format(useOffset=False, style='plain')
 
@@ -86,6 +86,8 @@ def get_plot(line1: List[list], line2: List[list],
 def get_data_points_wild_fires(wild_fire_dict: Dict[datetime.date, List[WildFire]], country: str) \
         -> List[list]:
     """Return the x and y coordinates of the wildfire data points
+    Preconditions:
+        - country == 'Canada' or country == 'America'
     """
     min_year = min([x.year for x in wild_fire_dict])
     max_year = max([x.year for x in wild_fire_dict])
